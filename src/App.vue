@@ -1,23 +1,23 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
+    <QuoteFilters/>
     <h1>Quotes</h1>
-    <li v-for="quote in quotes">
-      <h2>{{quote.id + 1}}</h2>
-      <p>{{quote.context}}</p>
-      <p>{{quote.quote}}</p>
-      <p>{{quote.source}}</p> 
-    </li>
+    <QuoteComponent v-for="quote in quotes" :quote="quote"/>
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import QuoteComponent from './components/QuoteComponent.vue';
+import QuoteFilters from './components/QuoteFilters.vue';
 
 export default {
   name: 'app',
   components: {
+    QuoteComponent,
+    QuoteFilters,
     // HelloWorld
   },
 
