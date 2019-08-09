@@ -4,8 +4,7 @@
       v-for="(category, index) in filterList"
       :item="category"
       :key="index"
-      @click="filter = category;"
-      :class="{ active: category == filter}"
+      @click="selection(category);"
       >
       {{ category }}
     </button>
@@ -16,10 +15,23 @@
 <script>
 export default {
   name: 'QuoteFilters',
+  props: ['quotes'],
   data() {
     return {
-      filterList: ["All", "Movies", "Games",],
-      filter: "All",
+      filterList: ["all", "movies", "games",],
+      buttonQuotes: [],
+      category: 'all',
+    }
+  },
+  methods: {
+    selection(category) {
+      this.buttonQuotes = this.quotes
+      if (category === "all") {
+        this.buttonQuotes = this.quotes;
+      } else { 
+        this.buttonQuotes = this.quotes.filter(quote => quote.theme === category);
+      }
+      this.$emit('buttonSelect', this.buttonQuotes);
     }
   }
 }

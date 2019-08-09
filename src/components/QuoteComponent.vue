@@ -4,6 +4,8 @@
         <li class="quote">"{{ quote.quote }}"</li>
         <li class="source"> - {{ quote.source }}</li>
         <li class="context">{{ quote.context }}</li>
+        <li>{{ quote.theme }}</li>
+
     </ul>
   </div> 
 </template>

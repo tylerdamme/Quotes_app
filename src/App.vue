@@ -1,9 +1,15 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <QuoteFilters/>
+    <QuoteFilters @buttonSelect="buttonSelect" :quotes="quotes"/>
+    <SearchFilter/>
     <h1>Quotes</h1>
-    <QuoteComponent v-for="quote in quotes" :quote="quote"/>
+    <div v-if="buttonQuotes.length === 0">
+      <QuoteComponent v-for="quote in this.quotes" :quote="quote" :key="quote.id"/>
+    </div>
+    <div v-else>
+      <QuoteComponent v-for="quote in this.buttonQuotes" :quote="quote" :key="quote.id"/>
+    </div>
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
@@ -12,18 +18,21 @@
 import axios from 'axios';
 import QuoteComponent from './components/QuoteComponent.vue';
 import QuoteFilters from './components/QuoteFilters.vue';
+import SearchFilter from './components/SearchFilter.vue';
 
 export default {
   name: 'app',
   components: {
     QuoteComponent,
     QuoteFilters,
+    SearchFilter,
     // HelloWorld
   },
 
   data() {
     return {
       quotes: [],
+      buttonQuotes: [],
     }
   },
 
@@ -34,8 +43,14 @@ export default {
         quoteResponse[i].id = i;
       }
       this.quotes = quoteResponse;
-      console.log(this.quotes);
+      // console.log(this.quotes);
     });
+  },
+
+  methods: {
+    buttonSelect(buttonQuotes) {
+      this.buttonQuotes = buttonQuotes;
+    }
   }
 
 }
