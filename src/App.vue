@@ -4,13 +4,13 @@
     <QuoteFilters @buttonSelect="buttonSelect" :quotes="quotes"/>
     <SearchFilter @searchQuery="searchQuery"/>
     <h1>Quotes</h1>
-    <!-- <div v-if="buttonQuotes.length === 0"> -->
-      <!-- <QuoteComponent v-for="quote in this.quotes" :quote="quote" :key="quote.id"/> -->
-    <!-- </div> -->
-    <!-- <div v-else> -->
-      <QuoteComponent v-for="quote in this.quoteData" :quote="quote" :key="quote.id"/>
-    <!-- </div> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+      <QuoteComponent v-for="quote in paginatedData" :quote="quote" :key="quote.id"/>
+    <button @click="prevPage" :disabled="pageNumber == 0">
+      Previous
+    </button>
+    <button @click="nextPage" :disabled="pageNumber >= pageCount -1">
+      Next
+    </button>
   </div>
 </template>
 
@@ -33,6 +33,8 @@ export default {
     return {
       quotes: [],
       quoteData: [],
+      pageNumber: 0,
+      size: 15,
     }
   },
 
@@ -61,13 +63,36 @@ export default {
         return quote.quote.toString().toLowerCase().includes(searchText.toLowerCase());
       });
 
-      console.log(results);
       this.quoteData = results;
 
-    }
-  }
+    },
 
+    nextPage() {
+      this.pageNumber++;
+    },
+
+    prevPage() {
+      this.pageNumber--;
+    },
+  },
+
+  computed: {
+    pageCount() {
+      let l = this.quoteData.length;
+      let s = this.size;
+      return Math.ceil(l / s);
+    },
+
+    paginatedData() {
+      const start = this.pageNumber * this.size;
+      const end = start + this.size;
+
+      return this.quoteData.slice(start, end);
+    },
+  }
 }
+
+
 
 
 </script>
