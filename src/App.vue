@@ -4,12 +4,12 @@
     <QuoteFilters @buttonSelect="buttonSelect" :quotes="quotes"/>
     <SearchFilter @searchQuery="searchQuery"/>
     <h1>Quotes</h1>
-    <div v-if="buttonQuotes.length === 0">
-      <QuoteComponent v-for="quote in this.quotes" :quote="quote" :key="quote.id"/>
-    </div>
-    <div v-else>
-      <QuoteComponent v-for="quote in this.buttonQuotes" :quote="quote" :key="quote.id"/>
-    </div>
+    <!-- <div v-if="buttonQuotes.length === 0"> -->
+      <!-- <QuoteComponent v-for="quote in this.quotes" :quote="quote" :key="quote.id"/> -->
+    <!-- </div> -->
+    <!-- <div v-else> -->
+      <QuoteComponent v-for="quote in this.quoteData" :quote="quote" :key="quote.id"/>
+    <!-- </div> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
@@ -32,8 +32,7 @@ export default {
   data() {
     return {
       quotes: [],
-      buttonQuotes: [],
-      // searchQuotes: [],
+      quoteData: [],
     }
   },
 
@@ -44,12 +43,13 @@ export default {
         quoteResponse[i].id = i;
       }
       this.quotes = quoteResponse;
+      this.quoteData = this.quotes;
     });
   },
 
   methods: {
     buttonSelect(buttonQuotes) {
-      this.buttonQuotes = buttonQuotes;
+      this.quoteData = buttonQuotes;
     },
 
     searchQuery(searchText) {
@@ -60,7 +60,9 @@ export default {
       let results = this.quotes.filter(quote => {
         return quote.quote.toString().toLowerCase().includes(searchText.toLowerCase());
       });
+
       console.log(results);
+      this.quoteData = results;
 
     }
   }
