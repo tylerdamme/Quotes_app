@@ -51,10 +51,13 @@ export default {
 
   methods: {
     buttonSelect(buttonQuotes) {
+      this.pageNumber = 0;
+      this.quoteData = this.quotes;
       this.quoteData = buttonQuotes;
     },
 
     searchQuery(searchText) {
+      this.pageNumber = 0;
       if (searchText !== "") {
         this.buttonQuotes = ""
       };
