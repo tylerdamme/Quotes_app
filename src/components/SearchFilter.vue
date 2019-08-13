@@ -9,6 +9,12 @@ export default {
     return {
       search: ''
     }
+  },
+
+  watch: {
+    search(input) {
+      this.$emit('searchQuery', input);
+    }
   }
 }
 </script>
